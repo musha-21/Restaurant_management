@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Foodie Delight — Home</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <div class="brand">
+        <img src="img/logo.png" alt="Foodie Delight Logo" class="brand-logo">
+        <h1>Foodie Delight</h1>
+      </div>
+
+      <!-- hamburger -->
+      <button id="mobileNavToggle" class="hamburger" aria-label="Toggle Menu">
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+      </button>
+
+      <nav class="main-nav">
+        <a href="index.html" class="nav-link active">Home</a>
+        <a href="menu.html" class="nav-link">Menu</a>
+        <a href="about.html" class="nav-link">About</a>
+        <a href="contact.html" class="nav-link">Contact</a>
+        <a href="login.html" class="nav-link">Login</a>
+        <a href="register.html" class="nav-link">Register</a>
+        <a href="admin.html" class="nav-link">Admin</a>
+        <a href="#" id="cartLink" class="nav-link">Cart <span class="cart-count">0</span></a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero-animated reveal">
+      <div class="hero-inner container">
+        <div class="hero-text">
+          <h2>Fresh, fast & flavorful</h2>
+          <p>Order your favorite dishes from local chefs — delivered hot to your door.</p>
+          <a href="menu.html" class="btn-primary">Explore Menu</a>
+        </div>
+        <div class="hero-image">
+          <img src="img/search-bg.jpg" alt="Delicious food hero">
+        </div>
+      </div>
+    </section>
+
+    <section class="categories container">
+      <h2>Popular Categories</h2>
+
+      <!-- If you want to edit categories manually, modify the HTML below.
+           Make sure image files exist in img/food/ with the exact filenames. -->
+      <div class="category-grid stagger" id="catGrid">
+        <div class="category-card">
+          <img src="img/food/p1.jpg" alt="Pizza">
+          <h3>Pizza</h3>
+        </div>
+
+        <div class="category-card">
+          <img src="img/food/b1.jpg" alt="Burgers"> 
+          <h3>Burgers</h3>
+        </div>
+
+        <div class="category-card">
+          <img src="img/food/Fried-fish.jpg" alt="Fried Fish">
+          <h3>Fish Fried</h3>
+        </div>
+
+        <div class="category-card">
+          <img src="img/food/biryani.jpg" alt="Biryani">
+          <h3>Biryani</h3>
+        </div>
+
+        <div class="category-card">
+          <img src="img/food/shawarma.jpg" alt="Shawarma">
+          <h3>Shawarma</h3>
+        </div>
+
+        <div class="category-card">
+          <img src="img/food/gobi.jpg" alt="Gobi Manchurian">
+          <h3>Gobi Manchurian</h3>
+        </div>
+
+        <div class="category-card">
+          <img src="img/food/roll.jpg" alt="Rolls">
+          <h3>Rolls</h3>
+        </div>
+
+        <div class="category-card">
+          <img src="img/food/gol gappe.jpg" alt="Gol Gappa">
+          <h3>Gol Gappa</h3>
+        </div>
+      </div>
+    </section>
+
+    <section class="featured container">
+      <h2>Featured Picks</h2>
+      <div class="food-grid stagger" id="featuredFoods">
+        <!-- Featured items will be rendered by script.js -->
+      </div>
+    </section>
+  </main>
+
+  <!-- Cart Modal (shared across pages) -->
+  <div class="cart-modal" id="cartModal">
+    <div class="cart-content">
+      <div class="cart-header">
+        <h2>Your Cart</h2>
+        <span class="close-btn" id="closeCart">&times;</span>
+      </div>
+      <div class="cart-body">
+        <div id="cartItems">
+          <p class="empty-cart-message">Your cart is empty</p>
+        </div>
+        <div class="cart-footer">
+          <div class="cart-total">
+            <h3>Total: $<span id="cartTotal">0.00</span></h3>
+          </div>
+          <button class="btn-primary checkout-btn" id="checkoutBtn">Checkout</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- <footer class="site-footer">
+    <div class="container">
+      <p>&copy; 2025 Foodie Delight. Made with ❤️</p>
+    </div>
+  </footer> -->
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Foodie Delight</h3>
+                    <p>Delivering delicious food with love since 2025</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="menu.html">Menu</a></li>
+                        <li><a href="about.html">About</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Contact Us</h3>
+                    <p><i class="fas fa-map-marker-alt"></i> 123 Food Street, Yummy City</p>
+                    <p><i class="fas fa-phone"></i> (123) 456-7890</p>
+                    <p><i class="fas fa-envelope"></i> info@foodiedelight.com</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Foodie Delight. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

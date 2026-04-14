@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Admin - Foodie Delight</title>
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+<header class="site-header">
+  <div class="container header-inner">
+    <div class="brand">
+      <h1>Foodie Delight - Admin</h1>
+    </div>
+
+    <!-- hamburger -->
+    <button id="mobileNavToggle" class="hamburger" aria-label="Toggle Menu">
+      <span class="hamburger-line"></span>
+      <span class="hamburger-line"></span>
+      <span class="hamburger-line"></span>
+    </button>
+
+    <nav class="main-nav">
+      <a href="index.html" class="nav-link">Home</a>
+      <a href="menu.html" class="nav-link">Menu</a>
+      <a href="about.html" class="nav-link">About</a>
+      <a href="contact.html" class="nav-link">Contact</a>
+      <a href="login.html" class="nav-link">Login</a>
+      <a href="register.html" class="nav-link">Register</a>
+      <a href="admin.html" class="nav-link active">Admin</a>
+      <a href="#" id="cartLink" class="nav-link">Cart <span class="cart-count">0</span></a>
+    </nav>
+  </div>
+</header>
+
+<main class="admin-container reveal">
+  <div class="admin-header">
+    <h1>Admin Dashboard</h1>
+    <div class="admin-controls">
+      <button id="refreshAdmin" class="small-btn ghost">Refresh</button>
+      <button id="exportOrdersBtn" class="small-btn primary">Export Orders CSV</button>
+      <button id="exportContactsBtn" class="small-btn primary">Export Contacts CSV</button>
+      <button id="clearAllBtn" class="small-btn danger">Clear All Data</button>
+    </div>
+  </div>
+
+  <section>
+    <h2>Orders</h2>
+    <table class="table" id="ordersTable">
+      <thead>
+        <tr><th>#</th><th>User</th><th>Items</th><th>Total</th><th>Date</th><th>Actions</th></tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </section>
+
+  <section>
+    <h2>Contact Messages</h2>
+    <table class="table" id="contactsTable">
+      <thead>
+        <tr><th>#</th><th>Name</th><th>Email</th><th>Message</th><th>Date</th><th>Actions</th></tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </section>
+</main>
+
+<script src="script.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded',()=>{
+  const adminCheck = JSON.parse(localStorage.getItem('currentUser')) || null;
+  const isAdmin = adminCheck && adminCheck.email === 'admin@foodiedelight.com';
+  if (!isAdmin) {
+    if (confirm('You must be admin to access this page. Login as admin now? (demo)')) {
+      const email = prompt('Admin email', 'admin@foodiedelight.com');
+      const pass = prompt('Admin password', 'admin123');
+      if (email === 'admin@foodiedelight.com' && pass === 'admin123') {
+        localStorage.setItem('currentUser', JSON.stringify({ name: 'Admin', email }));
+        location.reload();
+      } else {
+        alert('Invalid admin credentials');
+        window.location = 'index.html';
+      }
+    } else {
+      window.location = 'index.html';
+    }
+    return;
+  }
+
+  document.getElementById('refreshAdmin').addEventListener('click', ()=> renderAdminTables());
+  document.getElementById('exportOrdersBtn').addEventListener('click', ()=> exportOrdersCSV());
+  document.getElementById('exportContactsBtn').addEventListener('click', ()=> exportContactsCSV());
+  document.getElementById('clearAllBtn').addEventListener('click', ()=> {
+    if (confirm('Clear all orders and messages?')) {
+      localStorage.removeItem('orders');
+      localStorage.removeItem('contactMessages');
+      renderAdminTables();
+      alert('Cleared');
+    }
+  });
+
+  renderAdminTables();
+});
+</script>
+</body>
+</html>

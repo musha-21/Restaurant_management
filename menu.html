@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Foodie Delight — Menu</title>
+  <link rel="stylesheet" href="style.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container header-inner">
+    <h1 class="brand">Foodie Delight</h1>
+
+    <button id="mobileNavToggle" class="hamburger">
+      <span class="hamburger-line"></span>
+      <span class="hamburger-line"></span>
+      <span class="hamburger-line"></span>
+    </button>
+
+    <nav class="main-nav">
+      <a href="index.html" class="nav-link">Home</a>
+      <a href="menu.html" class="nav-link active">Menu</a>
+      <a href="about.html" class="nav-link">About</a>
+      <a href="contact.html" class="nav-link">Contact</a>
+      <a href="login.html" class="nav-link">Login</a>
+      <a href="register.html" class="nav-link">Register</a>
+      <a href="admin.html" class="nav-link">Admin</a>
+      <a href="#" id="cartLink" class="nav-link">Cart <span class="cart-count">0</span></a>
+    </nav>
+  </div>
+</header>
+
+<main class="container" style="padding-top:40px;">
+
+  <h2>Our Delicious Menu</h2>
+  <p>Filter by category or browse all items.</p>
+
+  <!-- FILTER BUTTONS -->
+  <div class="filter-buttons">
+    <button class="filter-btn active" data-category="all">All</button>
+    <button class="filter-btn" data-category="pizza">Pizza</button>
+    <button class="filter-btn" data-category="burger">Burger</button>
+    <button class="filter-btn" data-category="sandwich">Sandwich</button>
+    <button class="filter-btn" data-category="biryani">Biryani</button>
+    <button class="filter-btn" data-category="shawarma">Shawarma</button>
+    <button class="filter-btn" data-category="rice">Rice</button>
+    <button class="filter-btn" data-category="roll">Rolls</button>
+    <button class="filter-btn" data-category="chat">Chat</button>
+    <button class="filter-btn" data-category="kebab">Kebab</button>
+    <button class="filter-btn" data-category="seafood">Seafood</button>
+    <button class="filter-btn" data-category="sweet">Sweets</button>
+  </div>
+
+  <!-- MENU GRID -->
+  <div class="food-grid" id="menuGrid"></div>
+
+</main>
+
+<!-- Cart Modal -->
+<div class="cart-modal" id="cartModal">
+  <div class="cart-content">
+    <div class="cart-header">
+      <h2>Your Cart</h2>
+      <span class="close-btn" id="closeCart">&times;</span>
+    </div>
+    <div class="cart-body">
+      <div id="cartItems"></div>
+      <div class="cart-footer">
+        <div class="cart-total">
+          <h3>Total: $<span id="cartTotal">0.00</span></h3>
+        </div>
+        <button class="btn-primary checkout-btn" id="checkoutBtn">Checkout</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer class="site-footer">
+  <div class="container">
+    <p>© 2025 Foodie Delight. All rights reserved.</p>
+  </div>
+</footer>
+
+<script src="script.js"></script>
+
+<script>
+// RENDER ALL FOODS ON MENU PAGE
+document.addEventListener("DOMContentLoaded", () => {
+    if (document.getElementById("menuGrid")) {
+        displayMenuFoods("all"); // show all items initially
+        setupFilters();
+    }
+});
+
+// show all or filtered foods
+function displayMenuFoods(category) {
+    const grid = document.getElementById("menuGrid");
+    grid.innerHTML = "";
+
+    let items = category === "all" 
+        ? foodData 
+        : foodData.filter(item => item.category === category);
+
+    items.forEach(f => {
+        const card = document.createElement("div");
+        card.className = "food-card reveal";
+
+        card.innerHTML = `
+            <img src="${f.image}" alt="${f.alt}">
+            <div class="food-info">
+                <h3>${f.name}</h3>
+                <p>${f.description}</p>
+                <span class="price">$${f.price.toFixed(2)}</span>
+                <button class="add-to-cart" data-id="${f.id}">Add to Cart</button>
+            </div>
+        `;
+
+        grid.appendChild(card);
+    });
+
+    document.querySelectorAll(".add-to-cart").forEach(btn => {
+        btn.addEventListener("click", () => addToCart(parseInt(btn.dataset.id)));
+    });
+}
+
+// filter buttons
+function setupFilters() {
+    const buttons = document.querySelectorAll(".filter-btn");
+
+    buttons.forEach(btn => {
+        btn.addEventListener("click", () => {
+
+            document.querySelector(".filter-btn.active").classList.remove("active");
+            btn.classList.add("active");
+
+            const cat = btn.dataset.category;
+            displayMenuFoods(cat);
+        });
+    });
+}
+ document.addEventListener("DOMContentLoaded", () => {
+      const filterButtons = document.querySelectorAll(".filter-btn");
+
+      filterButtons.forEach(btn => {
+          btn.addEventListener("click", function (e) {
+              // toggle active
+              document.querySelectorAll(".filter-btn.active").forEach(b => b.classList.remove("active"));
+              this.classList.add("active");
+
+              // ripple position (nice touch) - create ripple element
+              const rect = this.getBoundingClientRect();
+              const x = e.clientX - rect.left;
+              const y = e.clientY - rect.top;
+              const ripple = document.createElement("span");
+              ripple.className = "ripple";
+              ripple.style.setProperty('--r-left', x + 'px');
+              ripple.style.setProperty('--r-top', y + 'px');
+              this.appendChild(ripple);
+              setTimeout(() => ripple.remove(), 500);
+          });
+      });
+  });
+
+  // === animate menu items when displayed (stagger) ===
+  function animateMenuItems() {
+      const items = document.querySelectorAll("#menuGrid .food-card");
+      items.forEach((card, i) => {
+          setTimeout(() => card.classList.add("show-item"), i * 80);
+      });
+  }
+
+  // wrap original displayMenuFoods to call animation automatically
+  if (typeof displayMenuFoods === 'function') {
+      const orig = displayMenuFoods;
+      displayMenuFoods = function(cat) {
+          orig(cat);
+          // small timeout to allow DOM to render then animate
+          setTimeout(animateMenuItems, 50);
+      };
+  }
+</script>
+
+</body>
+</html>
